@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Article;
 use Carbon\Carbon;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
-//use Illuminate\Http\Request;
 
 
 class ArticleController extends Controller
@@ -48,4 +48,18 @@ class ArticleController extends Controller
         return redirect('articles');
     }
      */
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update($id, ArticleRequest $request)
+    {
+        $article = Article::findOrFail($id);
+        $article->update($request->all());
+
+        return redirect('articles');
+    }
 }
