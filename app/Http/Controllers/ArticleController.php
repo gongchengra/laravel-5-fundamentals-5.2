@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Article;
 use Carbon\Carbon;
 use App\Http\Requests;
@@ -18,6 +19,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
+//        return \Auth::user()->name;
         $articles = Article::latest('published_at')->published()->get();
 //        $articles = Article::latest('published_at')->unpublished()->get();
         return view('articles.index', compact('articles'));
@@ -36,7 +38,8 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request)
     {
-        Article::create($request->all());
+        $article = new Article($request->all());
+        Auth::user()->articles()->save($article);
         return redirect('articles');
     }
 
