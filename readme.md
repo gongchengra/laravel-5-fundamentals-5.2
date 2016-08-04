@@ -1,3 +1,7 @@
+# Source code typed when watching the [laracast video] (https://laracasts.com/series/laravel-5-fundamentals) from laracast website.
+
+Some code are different from tutorial because I'm using laravel 5.2.
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
