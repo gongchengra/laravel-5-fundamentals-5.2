@@ -12,7 +12,12 @@
 */
 //Route::get('/', 'WelcomeController@index');
 Route::get('contact', 'PagesController@contact');
-Route::get('about', 'PagesController@about');
+Route::get('contact', ['middleware' => 'demo', 'uses' => 'PagesController@contact']);
+//Route::get('about', 'PagesController@about');
+//Route::get('about', ['middleware' => 'auth', 'uses' => 'PagesController@about']);
+Route::get('about', ['middleware' => 'auth', function(){
+    return 'A protected page by auth method';
+}]);
 
 //Route::get('articles', 'ArticleController@index');
 //Route::get('articles/create', 'ArticleController@create');
@@ -31,3 +36,7 @@ Route::auth();
 
 //Route::get('/home', 'HomeController@index');
 Route::get('/', 'ArticleController@index');
+
+Route::get('foo', ['middleware' => 'manager', function(){
+    return 'This page can only be viewed as managers';
+}]);

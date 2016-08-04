@@ -12,6 +12,10 @@ use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => 'create']);
+    }
     /**
      * Get all articles
      *
