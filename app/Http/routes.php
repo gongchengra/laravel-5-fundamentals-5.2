@@ -40,3 +40,4 @@ Route::get('/', 'ArticleController@index');
 Route::get('foo', ['middleware' => 'manager', function(){
     return 'This page can only be viewed as managers';
 }]);
+
