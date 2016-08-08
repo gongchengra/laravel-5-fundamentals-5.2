@@ -41,8 +41,19 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request)
     {
-        $article = new Article($request->all());
-        Auth::user()->articles()->save($article);
+//        $article = new Article($request->all());
+//        Auth::user()->articles()->save($article);
+        Auth::user()->articles()->create($request->all());
+//        \Session::flash('flash_message', 'Your article has been created.');
+//        session()->flash('flash_message', 'Your article has been created.');
+//        session()->flash('flash_message_important', true);
+//        return redirect('articles')->with([
+//            'flash_message'=>'Your article has been created.',
+//            'flash_message_important'=>true,
+//        ]);
+//        flash('Your article has been created.')->important();
+//        flash()->success('Your article has been created sucessfully.');
+        flash()->overlay('Your article has been sucessfully created.', 'Good Job.');
         return redirect('articles');
     }
 
@@ -64,6 +75,7 @@ class ArticleController extends Controller
     {
         $article->update($request->all());
 
+        flash()->overlay('Your article has been sucessfully updated.', 'Good Job.');
         return redirect('articles');
     }
 }
