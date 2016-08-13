@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Tag;
 use App\Article;
 use Carbon\Carbon;
 use App\Http\Requests;
@@ -36,14 +37,17 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        $tags = Tag::lists('name', 'id');
+        return view('articles.create', compact('tags'));
     }
 
     public function store(ArticleRequest $request)
     {
 //        $article = new Article($request->all());
 //        Auth::user()->articles()->save($article);
-        Auth::user()->articles()->create($request->all());
+//        $article = Auth::user()->articles()->create($request->all());
+//        $article->tags()->attach($request->input('tags'));
+        Auth::user()->articles()->create($request->all())->tags()->attach($request->input('tag_list'));
 //        \Session::flash('flash_message', 'Your article has been created.');
 //        session()->flash('flash_message', 'Your article has been created.');
 //        session()->flash('flash_message_important', true);
@@ -52,8 +56,8 @@ class ArticleController extends Controller
 //            'flash_message_important'=>true,
 //        ]);
 //        flash('Your article has been created.')->important();
-//        flash()->success('Your article has been created sucessfully.');
-        flash()->overlay('Your article has been sucessfully created.', 'Good Job.');
+        flash()->success('Your article has been created sucessfully.');
+//        flash()->overlay('Your article has been sucessfully created.', 'Good Job.');
         return redirect('articles');
     }
 
@@ -68,7 +72,12 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+//        dd($article);
+        $tags = Tag::lists('name', 'id');
+        return view('articles.edit', compact('article', 'tags'));
+
+//        $tag_list = $article->tags->lists('id')->toArray();
+//        return view('articles.edit', compact('article', 'tags', 'tag_list'));
     }
 
     public function update(Article $article, ArticleRequest $request)

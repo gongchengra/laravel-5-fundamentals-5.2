@@ -1,1 +1,6 @@
-(function(){Class(Module)}).call(this);
+(function() {
+  Class(Module);
+
+}).call(this);
+
+//# sourceMappingURL=coffee.js.map
