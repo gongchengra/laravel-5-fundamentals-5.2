@@ -10,13 +10,13 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 
-
 class ArticleController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth', ['only' => 'create']);
     }
+
     /**
      * Get all articles
      *
@@ -24,9 +24,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-//        return \Auth::user()->name;
+        //        return \Auth::user()->name;
         $articles = Article::latest('published_at')->published()->get();
-//        $articles = Article::latest('published_at')->unpublished()->get();
+        //        $articles = Article::latest('published_at')->unpublished()->get();
         return view('articles.index', compact('articles'));
     }
 
@@ -43,22 +43,29 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request)
     {
-//        $article = new Article($request->all());
-//        Auth::user()->articles()->save($article);
-//        $article = Auth::user()->articles()->create($request->all());
-//        $article->tags()->attach($request->input('tags'));
-        Auth::user()->articles()->create($request->all())->tags()->attach($request->input('tag_list'));
-//        \Session::flash('flash_message', 'Your article has been created.');
-//        session()->flash('flash_message', 'Your article has been created.');
-//        session()->flash('flash_message_important', true);
-//        return redirect('articles')->with([
-//            'flash_message'=>'Your article has been created.',
-//            'flash_message_important'=>true,
-//        ]);
-//        flash('Your article has been created.')->important();
+        //        $article = new Article($request->all());
+        //        Auth::user()->articles()->save($article);
+        //        Auth::user()->articles()->create($request->all())->tags()->attach($request->input('tag_list'));
+        $this->createArticle($request);
+        //        \Session::flash('flash_message', 'Your article has been created.');
+        //        session()->flash('flash_message', 'Your article has been created.');
+        //        session()->flash('flash_message_important', true);
+        //        return redirect('articles')->with([
+        //            'flash_message'=>'Your article has been created.',
+        //            'flash_message_important'=>true,
+        //        ]);
+        //        flash('Your article has been created.')->important();
         flash()->success('Your article has been created sucessfully.');
-//        flash()->overlay('Your article has been sucessfully created.', 'Good Job.');
+        //        flash()->overlay('Your article has been sucessfully created.', 'Good Job.');
         return redirect('articles');
+    }
+
+    private function createArticle(ArticleRequest $request)
+    {
+        $article = Auth::user()->articles()->create($request->all());
+        //        $article->tags()->attach($request->input('tags'));
+        $this->syncTags($article, $request->input('tag_list'));
+        return $article;
     }
 
     /*
@@ -72,19 +79,25 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-//        dd($article);
+        //        dd($article);
         $tags = Tag::lists('name', 'id');
         return view('articles.edit', compact('article', 'tags'));
 
-//        $tag_list = $article->tags->lists('id')->toArray();
-//        return view('articles.edit', compact('article', 'tags', 'tag_list'));
+        //        $tag_list = $article->tags->lists('id')->toArray();
+        //        return view('articles.edit', compact('article', 'tags', 'tag_list'));
     }
 
     public function update(Article $article, ArticleRequest $request)
     {
         $article->update($request->all());
-
-        flash()->overlay('Your article has been sucessfully updated.', 'Good Job.');
+        $this->syncTags($article, $request->input('tag_list'));
+        //        flash()->overlay('Your article has been sucessfully updated.', 'Good Job.');
+        flash()->success('Your article has been sucessfully updated.', 'Good Job.');
         return redirect('articles');
+    }
+
+    private function syncTags(Article $article, array $tags)
+    {
+        $article->tags()->sync($tags);
     }
 }
