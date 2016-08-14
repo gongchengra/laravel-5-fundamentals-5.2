@@ -13,18 +13,17 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss').coffee('coffee.module');
+    //    mix.sass('app.scss', 'resources/css');
     mix.styles([
-//        'vendor/normalize.css',
         'vendor/bootstrap.min.css',
-//        'app.css'
+        'app.css',
+        'vendor/select2.min.css',
     ], 'public/output/final.css', 'public/css');
     mix.version('public/output/final.css');
-    /*
     mix.scripts([
-        'vendor/jquery.js',
-        'main.js',
-        'coupon.js'
-    ],'public/output/scripts.js', 'public/js');
-    */
+        'jquery-1.12.4.min.js',
+        'bootstrap.min.js',
+        'select2.min.js',
+    ],'', 'public/js');
     //    mix.phpUnit();
 });
