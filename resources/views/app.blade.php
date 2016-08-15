@@ -6,6 +6,7 @@
     <link href="{{ elixir('css/all.css') }}" rel="stylesheet">
 </head>
 <body>
+    @include('partials.nav')
     <div class="container">
         @include('flash::message')
         @yield('content')
