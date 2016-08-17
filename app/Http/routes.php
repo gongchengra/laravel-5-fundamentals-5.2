@@ -41,3 +41,34 @@ Route::get('foo', ['middleware' => 'manager', function(){
     return 'This page can only be viewed as managers';
 }]);
 
+/*
+class Baz{}
+class Bar{
+    public $baz;
+    public function __construct(Baz $baz) {
+        $this->baz = $baz;
+    }
+}
+App::bind('Bar', function(){
+    return new Bar(new Baz);
+});
+interface BarInterface{}
+class foo implements BarInterface{}
+//App::bind('BarInterface', function(){
+//    return new foo;
+//});
+//App::bind('BarInterface', 'foo');
+//Route::get('bar', function(BarInterface $bar){
+//    dd($bar);
+//});
+//App::bind('BarInterface', 'foo');
+app()->bind('BarInterface', 'foo');
+Route::get('bar', function(){
+//    $bar = App::make('BarInterface');
+//    $bar = app()->make('BarInterface');
+//    $bar = app()['BarInterface'];
+    $bar = app('BarInterface');
+    dd($bar);
+});
+ */
+Route::get('foo', 'FooController@foo');
