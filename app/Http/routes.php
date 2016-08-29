@@ -14,3 +14,6 @@ Route::auth();
 Route::get('/', 'ArticleController@index');
 Route::resource('articles', 'ArticleController');
 Route::get('tags/{tags}', 'TagController@show');
+Route::get('/tasks', 'TaskController@index');
+Route::post('/task', 'TaskController@store');
+Route::delete('/task/{task}', 'TaskController@destroy');

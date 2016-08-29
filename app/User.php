@@ -29,4 +29,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Article');
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
