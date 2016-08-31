@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Cache;
 use App\Tag;
 use App\Article;
 use Carbon\Carbon;
@@ -25,30 +24,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $index = Cache::get('index');
-        if($index != null){
-            return $index;
-        } else {
-            $index = $this->getIndex();
-            $this->storeIndex($index);
-            return $index;
-        }
-    }
-
-    private function getIndex()
-    {
         $articles = Article::latest('published_at')->published()->get();
-        return view('articles.index', compact('articles'))->render();
-    }
-
-    private function storeIndex($index)
-    {
-        $this->putInCache('index', $index, 'index');
-    }
-
-    private function putInCache($key, $content, $tag)
-    {
-        Cache::tags($tag)->put($key, $content, 43200);
+        return view('articles.index', compact('articles'));
     }
 
     public function show(Article $article)
