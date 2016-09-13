@@ -17,3 +17,21 @@ Route::get('tags/{tags}', 'TagController@show');
 Route::get('/tasks', 'TaskController@index');
 Route::post('/task', 'TaskController@store');
 Route::delete('/task/{task}', 'TaskController@destroy');
+
+Route::get('/chats', 'ChatController@index');
+
+// Chat rooms
+Route::get('/api/chat-rooms', array('uses' => 'ChatRoomController@getAll'));
+Route::get('/api/chat-rooms/{chatRoom}', array('uses' => 'ChatRoomController@show'));
+Route::post('/api/chat-rooms', array('uses' => 'ChatRoomController@create'));
+
+// Messages api
+Route::get('/api/messages/{chatRoom}', array('uses' => 'MessageController@getByChatRoom'));
+Route::post('/api/messages/{chatRoom}', array('uses' => 'MessageController@createInChatRoom'));
+Route::get('/api/messages/{lastMessageId}/{chatRoom}', array('uses' => 'MessageController@getUpdates'));
+
+// Users api
+Route::get('/api/users/login/kareem', array('uses' => 'UserController@loginKareem'));
+Route::get('/api/users/login/mohamed', array('uses' => 'UserController@loginMohamed'));
+
+//Route::model('chatRoom', 'ChatRoom');

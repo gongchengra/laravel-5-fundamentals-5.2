@@ -32,6 +32,8 @@ class RouteServiceProvider extends ServiceProvider
          return \App\Tag::where('name', $name)->firstOrFail();
         });
 
+        $router->model('chatRoom', 'App\ChatRoom');
+//Route::model('chatRoom', 'ChatRoom');
         parent::boot($router);
     }
 

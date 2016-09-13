@@ -13,6 +13,7 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/articles">Articles</a></li>
             <li><a href="/tasks">Tasks</a></li>
+            <li><a href="/chats">Chats</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="active">{!! link_to_action('ArticleController@show', $latest->title, [$latest->id]) !!}</li>
